@@ -1,0 +1,48 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/main_merge.yml'
+      - 'some_package/**'
+      - 'tests'
+
+  workflow_dispatch:
+
+env:
+  SERVICE_NAME: ml_activity_detection
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}-ml_activity_detection
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Could replace with self-hosted
+    if: github.event_name == 'pull_request' 
+    steps:
+      - name: Cleanup workspace
+        run: |
+          sudo rm -rf $GITHUB_WORKSPACE/* || true
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0 
+      - name: Prepare workspace
+        working-directory: /home/ubuntu
+        run: | 
+          echo "Preparing workspace..."
+
+     
+      - name: Run tests
+        working-directory: /home/ubuntu
+        if: success()
+        run: |
+          cd $GITHUB_WORKSPACE
+          pytest tests --capture=no --tb=short
+          
+  

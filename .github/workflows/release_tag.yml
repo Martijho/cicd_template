@@ -1,0 +1,33 @@
+name: Tag release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Do some release work
+        run: |
+          echo "Doing some release work... somewhere..."
+
+      - name: Update Repository Variable
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION_TAG=${GITHUB_REF#refs/tags/}
+          gh variable set STABLE_VERSION --body "$VERSION_TAG"

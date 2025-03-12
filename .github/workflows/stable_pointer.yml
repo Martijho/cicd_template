@@ -1,0 +1,49 @@
+name: Update Pointers
+
+on:
+  push:
+    tags:
+      - stable
+    branches: 
+      - main
+
+jobs:
+  set-new-stable:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Determine Version Tag
+        id: get-version
+        run: |
+          # Find the commit this tag is pointing to
+          TARGET_COMMIT=$(git rev-parse HEAD)
+
+          TAGS=$(git tag --points-at $TARGET_COMMIT)
+
+          VERSION_TAG=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+
+          if [[ -z "$VERSION_TAG" ]]; then
+            echo "Commit is not a release"
+            exit 1
+          fi
+
+          echo "Version tag found: $VERSION_TAG"
+          echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
+
+      - name: Updating stable tag
+        run: |
+          echo "Doing some updating of the stable tag... somewhere..."
+
+      - name: Update Repository Variable
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh variable set STABLE_VERSION --body "$VERSION_TAG"
