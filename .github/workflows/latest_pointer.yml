@@ -20,19 +20,26 @@ jobs:
       - name: Determine Version Tag
         id: get-version
         run: |
-          # Find the commit this tag is pointing to
+          # Fetch all tags (ensures we have complete tag data)
+          git fetch --tags
+
+          # Get the commit that 'latest' tag is pointing to
           TARGET_COMMIT=$(git rev-parse HEAD)
 
-          TAGS=$(git tag --points-at $TARGET_COMMIT)
+          # Find all tags pointing at this commit
+          TAGS=$(git tag --points-at "$TARGET_COMMIT")
 
-          VERSION_TAG=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          # Filter for semantic version tags (vX.Y.Z)
+          VERSION_TAG=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
 
+          # If no version tag found, exit with failure
           if [[ -z "$VERSION_TAG" ]]; then
-            echo "Commit is not a release"
+            echo "❌ Commit is not a release (no semantic version tag found)"
             exit 1
           fi
 
-          echo "Version tag found: $VERSION_TAG"
+          # Output the found version tag
+          echo "✅ Version tag found: $VERSION_TAG"
           echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
 
       - name: Updating latest tag
