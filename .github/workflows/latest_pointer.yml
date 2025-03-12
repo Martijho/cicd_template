@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - latest
-    branches: 
-      - main
 
 jobs:
   set-new-latest:
