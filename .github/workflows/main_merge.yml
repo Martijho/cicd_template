@@ -32,11 +32,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0 
+
       - name: Prepare workspace
-        working-directory: /home/ubuntu
         run: | 
           echo "Preparing workspace..."
-
      
       - name: Run tests
         working-directory: /home/ubuntu
