@@ -38,10 +38,8 @@ jobs:
           echo "Preparing workspace..."
      
       - name: Run tests
-        working-directory: /home/ubuntu
         if: success()
         run: |
-          cd $GITHUB_WORKSPACE
           pytest tests --capture=no --tb=short
           
   
