@@ -17,38 +17,37 @@ jobs:
         with:
           fetch-tags: true
 
-      - name: Determine Version Tag
-        id: get-version
-        run: |
-          # Fetch all tags (ensures we have complete tag data)
-          git fetch --tags
+      - name: Fetch all tags
+        run: git fetch --tags
 
+      - name: Get commit hash for 'latest' tag
+        run: |
           # Get the commit that 'latest' tag is pointing to
           TARGET_COMMIT=$(git rev-parse HEAD)
+          echo "The commit for 'latest' tag is: $TARGET_COMMIT"
 
+      - name: Check if commit is tagged as a valid release
+        id: check-release
+        run: |
           # Find all tags pointing at this commit
           TAGS=$(git tag --points-at "$TARGET_COMMIT")
 
           # Filter for semantic version tags (vX.Y.Z)
           VERSION_TAG=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
 
-          # If no version tag found, exit with failure
+          # If no version tag found, fail the workflow and delete 'latest'
           if [[ -z "$VERSION_TAG" ]]; then
             echo "❌ Commit is not a release (no semantic version tag found)"
-            exit 1
+            git tag -d latest  # Delete the 'latest' tag locally
+            git push origin :refs/tags/latest  # Delete the 'latest' tag remotely
+            exit 1  # Exit the workflow to prevent further steps
           fi
 
-          # Output the found version tag
           echo "✅ Version tag found: $VERSION_TAG"
           echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
 
       - name: Updating latest tag
+        if: success()
         run: |
           echo "Doing some updating of the latest tag... somewhere..."
 
-      - name: Update Repository Variable
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh variable set LATEST_VERSION --body "$VERSION_TAG"
