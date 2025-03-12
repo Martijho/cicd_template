@@ -30,4 +30,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION_TAG=${GITHUB_REF#refs/tags/}
-          gh variable set STABLE_VERSION --body "$VERSION_TAG"
+          gh variable set MOST_RECENT_TAG --body "$VERSION_TAG"
