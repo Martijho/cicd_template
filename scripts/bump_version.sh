@@ -28,6 +28,14 @@ esac
 NEW_TAG="v$MAJOR.$MINOR.$PATCH"
 echo "New version: $NEW_TAG"
 
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if it's 'main'
+if [ "$current_branch" != "main" ]; then
+  echo "You are NOT on the main branch. Current branch: $current_branch"
+  exit 1  # Failure
+fi
+
 # Confirm and create the tag
 git tag "$NEW_TAG"
 git push origin "$NEW_TAG"
