@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  create-release:
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -20,14 +20,15 @@ jobs:
         with:
           fetch-tags: true
 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+
       - name: Do some release work
         run: |
           echo "Doing some release work... somewhere..."
-
-      - name: Update Repository Variable
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          VERSION_TAG=${GITHUB_REF#refs/tags/}
-          gh variable set MOST_RECENT_TAG --body "$VERSION_TAG"
