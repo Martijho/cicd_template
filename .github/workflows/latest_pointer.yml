@@ -53,8 +53,7 @@ jobs:
           name: latest-release-badge
           path: latest.json
 
-      # Optional: Update a Gist to provide a badge URL
-      - name: Update Gist (Optional)
+      - name: Update Gist
         if: env.GIST_ID_LATEST != ''
         run: |
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_LATEST }}" \
