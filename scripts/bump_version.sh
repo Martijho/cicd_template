@@ -41,13 +41,12 @@ echo "New version:      $NEW_TAG"
 
 read -p "Do you want to create the new tag $NEW_TAG? (Y/n): " -r response
 response=${response,,}  # tolower
-if [[ "$response" != "y" && "$response" != "" ]]; then
+if [[ "$response" != "y" ]]; then
     echo "Tag creation aborted."
     exit 1
 fi
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
-
 # Check if it's 'main'
 if [ "$current_branch" != "main" ]; then
   echo "You are NOT on the main branch. Current branch: $current_branch"
