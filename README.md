@@ -9,4 +9,4 @@ Most resent release: [![Latest Release](https://img.shields.io/github/v/release/
 
 Latest build:        [![Latest Release](https://img.shields.io/github/v/tag/Martijho/cicd_template?label=latest)](https://github.com/Martijho/cicd_template/releases/tag/latest)
 
-Stable build:        [![Latest Release](https://img.shields.io/github/v/tag/Martijho/cicd_template?label=stable)](https://github.com/Martijho/cicd_template/releases/tag/stable)
+Stable build:        [![Stable Release](https://img.shields.io/github/v/tag/Martijho/cicd_template?label=stable)](https://github.com/Martijho/cicd_template/releases/tag/stable)
