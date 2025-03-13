@@ -17,15 +17,25 @@ else
     PATCH=0
 fi
 
+
 # Decide version bump type (default = patch)
-case "$1" in
-    major) ((MAJOR++)); MINOR=0; PATCH=0 ;;
-    minor) ((MINOR++)); PATCH=0 ;;
-    patch|*) ((PATCH++)) ;;
+if [ -z "$1" ]; then
+    echo "No version bump type provided. Use 'patch', 'minor' or 'major'"
+    exit 1
+else
+    BUMP_TYPE="$1"
+fi
+
+case "$BUMP_TYPE" in
+    major) let MAJOR+=1; MINOR=0; PATCH=0 ;;
+    minor) let MINOR+=1; PATCH=0 ;;
+    patch) let PATCH+=1 ;;
+    *) echo "Invalid bump type: $BUMP_TYPE. Use 'major', 'minor', or 'patch'."; exit 1 ;;
 esac
 
 # Create the new version tag
 NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+
 echo "Previous version: $LATEST_TAG"
 echo "New version:      $NEW_TAG"
 
