@@ -19,16 +19,13 @@ jobs:
 
       - name: Fetch all tags
         run: git fetch --tags
-
-      - name: Get commit hash for 'latest' tag
+   
+      - name: Check if commit is tagged as a valid release
+        id: check-release
         run: |
           # Get the commit that 'latest' tag is pointing to
           TARGET_COMMIT=$(git rev-parse HEAD)
           echo "The commit for 'latest' tag is: $TARGET_COMMIT"
-
-      - name: Check if commit is tagged as a valid release
-        id: check-release
-        run: |
           # Find all tags pointing at this commit
           TAGS=$(git tag --points-at "$TARGET_COMMIT")
 
