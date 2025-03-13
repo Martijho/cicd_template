@@ -17,31 +17,34 @@ jobs:
         with:
           fetch-tags: true
 
-      - name: Determine Version Tag
-        id: get-version
+      - name: Fetch all tags
+        run: git fetch --tags
+   
+      - name: Check if commit is tagged as a valid release
+        id: check-release
         run: |
-          # Find the commit this tag is pointing to
+          # Get the commit that 'stable' tag is pointing to
           TARGET_COMMIT=$(git rev-parse HEAD)
+          echo "The commit for 'stable' tag is: $TARGET_COMMIT"
+          # Find all tags pointing at this commit
+          TAGS=$(git tag --points-at "$TARGET_COMMIT")
 
-          TAGS=$(git tag --points-at $TARGET_COMMIT)
+          # Filter for semantic version tags (vX.Y.Z)
+          VERSION_TAG=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
 
-          VERSION_TAG=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
-
+          # If no version tag found, fail the workflow and delete 'stable'
           if [[ -z "$VERSION_TAG" ]]; then
-            echo "Commit is not a release"
-            exit 1
+            echo "❌ Commit is not a release (no semantic version tag found)"
+            git tag -d stable  # Delete the 'stable' tag locally
+            git push origin :refs/tags/stable  # Delete the 'stable' tag remotely
+            exit 1  # Exit the workflow to prevent further steps
           fi
 
-          echo "Version tag found: $VERSION_TAG"
+          echo "✅ Version tag found: $VERSION_TAG"
           echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
 
       - name: Updating stable tag
+        if: success()
         run: |
           echo "Doing some updating of the stable tag... somewhere..."
 
-      - name: Update Repository Variable
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh variable set STABLE_VERSION --body "$VERSION_TAG"
