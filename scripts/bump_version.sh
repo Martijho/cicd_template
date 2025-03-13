@@ -26,7 +26,15 @@ esac
 
 # Create the new version tag
 NEW_TAG="v$MAJOR.$MINOR.$PATCH"
-echo "New version: $NEW_TAG"
+echo "Previous version: $LATEST_TAG"
+echo "New version:      $NEW_TAG"
+
+read -p "Do you want to create the new tag $NEW_TAG? (Y/n): " -r response
+response=${response,,}  # tolower
+if [[ "$response" != "y" && "$response" != "" ]]; then
+    echo "Tag creation aborted."
+    exit 1
+fi
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
