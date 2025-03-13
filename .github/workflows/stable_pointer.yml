@@ -57,12 +57,15 @@ jobs:
         run: echo "GIST_ID_STABLE=${{ secrets.GIST_ID_STABLE }}" >> $GITHUB_ENV
   
 
-        # Optional: Update a Gist to provide a badge URL
-      - name: Update Gist (Optional)
+      - name: Update Gist
         if: env.GIST_ID_STABLE != ''
         run: |
+          # Escape the contents of the stable.json file
+          ESCAPED_CONTENT=$(jq -Rs . < stable.json)
+
+          # Update the Gist using the escaped content
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_STABLE }}" \
-          -d "{\"files\": {\"stable.json\": {\"content\": \"$(cat stable.json)\"}}}" \
+          -d "{\"files\": {\"stable.json\": {\"content\": $ESCAPED_CONTENT}}}" \
           https://api.github.com/gists/${{ env.GIST_ID_STABLE }}
 
       - name: Updating stable tag
