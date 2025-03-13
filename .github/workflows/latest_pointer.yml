@@ -45,7 +45,7 @@ jobs:
 
       - name: Generate badge
         run: |
-          echo "{ \"schemaVersion\": 1, \"label\": \"Latest Release\", \"message\": \"${{ env.VERSION_TAG }}\", \"color\": \"blue\" }" > latest.json
+          echo "{ \"schemaVersion\": 1, \"label\": \"Latest Release\", \"message\": \"${{ env.VERSION_TAG }}\", \"color\": \"purple\" }" > latest.json
 
       - name: Upload badge as artifact
         uses: actions/upload-artifact@v4

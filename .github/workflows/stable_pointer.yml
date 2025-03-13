@@ -45,7 +45,7 @@ jobs:
 
       - name: Generate badge
         run: |
-          echo "{ \"schemaVersion\": 1, \"label\": \"Stable Release\", \"message\": \"${{ env.VERSION_TAG }}\", \"color\": \"blue\" }" > stable.json
+          echo "{ \"schemaVersion\": 1, \"label\": \"Stable Release\", \"message\": \"${{ env.VERSION_TAG }}\", \"color\": \"purple\" }" > stable.json
   
       - name: Upload badge as artifact  
         uses: actions/upload-artifact@v4
