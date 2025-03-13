@@ -3,10 +3,30 @@
 ![Stable Release](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/7a50d807ec91d1e85af92d83f0949631/raw/stable.json)
 
 # cicd_template
-Template for CI/CD workflows 
+This repo is a template for the GITHUB part of a CI/CD system, where the workflows can be built upon to include code-release to dev and prod. 
 
-## TODO
+The idea is to add rules to the repository so only PRs can commit to main, and only a select few can push tags to the repo. 
 
+### PRs
+Every time a PR is opened to main, the workflow `main_merge` is triggered. This workflow runs pytests and if they pass, the PR might be merged with main.
+
+### Release
+When a commit in main is deemed release-worthy, the commit should be tagged with a release version following the `vMAJOR.MINOR.PATCH` format.
+This triggers the `release_tag` workflow which verifies that the version follows the correct format, and creates a new release in github with that version. 
+
+Running `./scripts/bump_version.sh` with the parameter `patch`, `minor` or `major` will increase the version appropriatly and push the new tag
+
+### Latest and Stable
+There are two other tags `latest` and `stable`, which points to some commits. These commits are considered `latest` and `stable` (shocker!), 
+and will always be placed on a commit which is also a release. 
+Changing the location of this tag causes the workflow `latest_pointer` or `stable_pointer` to run. They include some boilerplate to update some GISTs
+for the repository, so that the shields at the top of this readme works (see setup bellow).
+
+When implementing this template in a project, these workflows can be updated to include steps for rolling out the `latest`/`stable` commit in production or development environments. 
+The workflows extract the commits release tag and adds it to `$GITHUB_ENV` so it can be retrieved in the workflow as `${{ env.VERSION_TAG }}`. Usefull for tagging docker images for example.
+
+The scripts `./scripts/update_latest.sh` and `./scripts/update_stable.sh` will move the respective tag to the version provided to the script. 
+     
 
 ## Setup Guide for Gist, Tokens, and Secrets
 
