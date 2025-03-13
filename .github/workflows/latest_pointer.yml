@@ -59,8 +59,12 @@ jobs:
       - name: Update Gist
         if: env.GIST_ID_LATEST != ''
         run: |
+          # Escape the contents of the latest.json file
+          ESCAPED_CONTENT=$(jq -Rs . < latest.json)
+
+          # Update the Gist using the escaped content
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_LATEST }}" \
-          -d "{\"files\": {\"latest.json\": {\"content\": \"$(cat latest.json)\"}}}" \
+          -d "{\"files\": {\"latest.json\": {\"content\": $ESCAPED_CONTENT}}}" \
           https://api.github.com/gists/${{ env.GIST_ID_LATEST }}
 
       - name: Updating latest tag
