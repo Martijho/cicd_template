@@ -54,7 +54,7 @@ jobs:
           path: latest.json
 
       - name: Update Gist
-        if: env.GIST_ID_LATEST != ''
+        if: secrets.GIST_ID_LATEST != ''
         run: |
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_LATEST }}" \
           -d "{\"files\": {\"latest.json\": {\"content\": \"$(cat latest.json)\"}}}" \

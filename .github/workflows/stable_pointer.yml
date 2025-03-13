@@ -55,7 +55,7 @@ jobs:
   
         # Optional: Update a Gist to provide a badge URL
       - name: Update Gist (Optional)
-        if: env.GIST_ID_STABLE != ''
+        if: secrets.GIST_ID_STABLE != ''
         run: |
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_STABLE }}" \
           -d "{\"files\": {\"stable.json\": {\"content\": \"$(cat stable.json)\"}}}" \
