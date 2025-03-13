@@ -53,12 +53,15 @@ jobs:
           name: latest-release-badge
           path: latest.json
 
+      - name: Set GIST_ID_LATEST from secrets to environment
+        run: echo "GIST_ID_LATEST=${{ secrets.GIST_ID_LATEST }}" >> $GITHUB_ENV
+
       - name: Update Gist
-        if: secrets.GIST_ID_LATEST != ''
+        if: env.GIST_ID_LATEST != ''
         run: |
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_LATEST }}" \
           -d "{\"files\": {\"latest.json\": {\"content\": \"$(cat latest.json)\"}}}" \
-          https://api.github.com/gists/${{ secrets.GIST_ID_LATEST }}
+          https://api.github.com/gists/${{ env.GIST_ID_LATEST }}
 
       - name: Updating latest tag
         if: success()

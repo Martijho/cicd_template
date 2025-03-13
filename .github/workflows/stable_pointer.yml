@@ -52,14 +52,18 @@ jobs:
         with:
           name: stable-release-badge
           path: stable.json
+      
+      - name: Set GIST_ID_STABLE from secrets to environment
+        run: echo "GIST_ID_STABLE=${{ secrets.GIST_ID_STABLE }}" >> $GITHUB_ENV
   
+
         # Optional: Update a Gist to provide a badge URL
       - name: Update Gist (Optional)
-        if: secrets.GIST_ID_STABLE != ''
+        if: env.GIST_ID_STABLE != ''
         run: |
           curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_STABLE }}" \
           -d "{\"files\": {\"stable.json\": {\"content\": \"$(cat stable.json)\"}}}" \
-          https://api.github.com/gists/${{ secrets.GIST_ID_STABLE }}
+          https://api.github.com/gists/${{ env.GIST_ID_STABLE }}
 
       - name: Updating stable tag
         if: success()
