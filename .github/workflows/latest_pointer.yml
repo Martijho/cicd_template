@@ -43,6 +43,24 @@ jobs:
           echo "✅ Version tag found: $VERSION_TAG"
           echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
 
+      - name: Generate badge
+        run: |
+          echo "{ \"schemaVersion\": 1, \"label\": \"Latest Release\", \"message\": \"${{ env.VERSION_TAG }}\", \"color\": \"blue\" }" > latest.json
+
+      - name: Upload badge as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-release-badge
+          path: latest.json
+
+      # Optional: Update a Gist to provide a badge URL
+      - name: Update Gist (Optional)
+        if: env.GIST_ID_LATEST != ''
+        run: |
+          curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_LATEST }}" \
+          -d "{\"files\": {\"latest.json\": {\"content\": \"$(cat latest.json)\"}}}" \
+          https://api.github.com/gists/${{ secrets.GIST_ID_LATEST }}
+
       - name: Updating latest tag
         if: success()
         run: |

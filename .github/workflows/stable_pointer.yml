@@ -43,6 +43,24 @@ jobs:
           echo "✅ Version tag found: $VERSION_TAG"
           echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_ENV"
 
+      - name: Generate badge
+        run: |
+          echo "{ \"schemaVersion\": 1, \"label\": \"Stable Release\", \"message\": \"${{ env.VERSION_TAG }}\", \"color\": \"blue\" }" > stable.json
+  
+      - name: Upload badge as artifact  
+        uses: actions/upload-artifact@v4
+        with:
+          name: stable-release-badge
+          path: stable.json
+  
+        # Optional: Update a Gist to provide a badge URL
+      - name: Update Gist (Optional)
+        if: env.GIST_ID_STABLE != ''
+        run: |
+          curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_STABLE }}" \
+          -d "{\"files\": {\"stable.json\": {\"content\": \"$(cat stable.json)\"}}}" \
+          https://api.github.com/gists/${{ secrets.GIST_ID_STABLE }}
+
       - name: Updating stable tag
         if: success()
         run: |
