@@ -53,9 +53,11 @@ jobs:
           name: stable-release-badge
           path: stable.json
       
-      - name: Set GIST_ID_STABLE from secrets to environment
-        run: echo "GIST_ID_STABLE=${{ secrets.GIST_ID_STABLE }}" >> $GITHUB_ENV
-  
+      - name: Set variables from secrets to environment
+        run: |
+          echo "GIST_ID_STABLE=${{ secrets.GIST_ID_STABLE }}" >> $GITHUB_ENV
+          echo "GIST_ID_HISTORY=${{ secrets.GIST_ID_HISTORY }}" >> $GITHUB_ENV
+
       - name: Update Gist
         if: env.GIST_ID_STABLE != ''
         run: |

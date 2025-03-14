@@ -53,8 +53,11 @@ jobs:
           name: latest-release-badge
           path: latest.json
 
-      - name: Set GIST_ID_LATEST from secrets to environment
-        run: echo "GIST_ID_LATEST=${{ secrets.GIST_ID_LATEST }}" >> $GITHUB_ENV
+      - name: Set variables from secrets to environment
+        run: |
+          echo "GIST_ID_LATEST=${{ secrets.GIST_ID_LATEST }}" >> $GITHUB_ENV
+          echo "GIST_ID_HISTORY=${{ secrets.GIST_ID_HISTORY }}" >> $GITHUB_ENV
+  
 
       - name: Update Gist
         if: env.GIST_ID_LATEST != ''
