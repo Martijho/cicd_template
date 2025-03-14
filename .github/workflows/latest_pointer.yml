@@ -91,8 +91,8 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
       
           # Append new latest entry to JSON
-          UPDATED_JSON=$(echo "$CURRENT_JSON" | jq --arg version "$GITHUB_REF_NAME" --arg updated "$TIMESTAMP" --arg commit "$COMMIT_HASH" \
-            '.["latest-history"] += [{"version": $VERSION_TAG, "updated": $updated, "commit": $commit}]')
+          UPDATED_JSON=$(echo "$CURRENT_JSON" | jq --arg version "$VERSION_TAG" --arg updated "$TIMESTAMP" --arg commit "$COMMIT_HASH" \
+            '.["latest-history"] += [{"version": $version, "updated": $updated, "commit": $commit}]')
       
           # Update the Gist
           curl -X PATCH \
