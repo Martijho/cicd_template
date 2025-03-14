@@ -90,7 +90,7 @@ jobs:
       
           # Append new stable entry to JSON
           UPDATED_JSON=$(echo "$CURRENT_JSON" | jq --arg version "$GITHUB_REF_NAME" --arg updated "$TIMESTAMP" --arg commit "$COMMIT_HASH" \
-            '.["stable-history"] += [{"version": $version, "updated": $updated, "commit": $commit}]')
+            '.["stable-history"] += [{"version": $VERSION_TAG, "updated": $updated, "commit": $commit}]')
       
           # Update the Gist
           curl -X PATCH \
