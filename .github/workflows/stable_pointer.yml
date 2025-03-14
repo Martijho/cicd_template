@@ -74,7 +74,8 @@ jobs:
         run: |
           GIST_ID=${{ env.GIST_ID_HISTORY }}
           GITHUB_TOKEN="${{ secrets.GIST_TOKEN }}"
-          
+          VERSION_TAG="${{ env.VERSION_TAG }}"
+
           # Fetch current Gist content
           GIST_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
@@ -90,7 +91,7 @@ jobs:
       
           # Append new stable entry to JSON
           UPDATED_JSON=$(echo "$CURRENT_JSON" | jq --arg version "$GITHUB_REF_NAME" --arg updated "$TIMESTAMP" --arg commit "$COMMIT_HASH" \
-            '.["stable-history"] += [{"version": "${{ env.VERSION_TAG }}"", "updated": $updated, "commit": $commit}]')
+            '.["stable-history"] += [{"version": $VERSION_TAG, "updated": $updated, "commit": $commit}]')
       
           # Update the Gist
           curl -X PATCH \
