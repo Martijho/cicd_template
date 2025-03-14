@@ -56,7 +56,6 @@ jobs:
       - name: Set GIST_ID_STABLE from secrets to environment
         run: echo "GIST_ID_STABLE=${{ secrets.GIST_ID_STABLE }}" >> $GITHUB_ENV
   
-
       - name: Update Gist
         if: env.GIST_ID_STABLE != ''
         run: |
@@ -64,9 +63,40 @@ jobs:
           ESCAPED_CONTENT=$(jq -Rs . < stable.json)
 
           # Update the Gist using the escaped content
-          curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN_STABLE }}" \
+          curl -X PATCH -H "Authorization: token ${{ secrets.GIST_TOKEN }}" \
           -d "{\"files\": {\"stable.json\": {\"content\": $ESCAPED_CONTENT}}}" \
           https://api.github.com/gists/${{ env.GIST_ID_STABLE }}
+
+      - name: Update stable-history in Gist
+        if: env.GIST_ID_HISTORY != ''
+        run: |
+          GIST_ID=${{ env.GIST_ID_HISTORY }}
+          GITHUB_TOKEN="${{ secrets.GIST_TOKEN }}"
+          
+          # Fetch current Gist content
+          GIST_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/gists/$GIST_ID)
+      
+          # Extract JSON content
+          RAW_URL=$(echo "$GIST_RESPONSE" | jq -r '.files["history.json"].raw_url')
+          CURRENT_JSON=$(curl -s "$RAW_URL")
+      
+          # Extract commit hash and timestamp
+          COMMIT_HASH=$(git rev-parse HEAD)
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+      
+          # Append new stable entry to JSON
+          UPDATED_JSON=$(echo "$CURRENT_JSON" | jq --arg version "$GITHUB_REF_NAME" --arg updated "$TIMESTAMP" --arg commit "$COMMIT_HASH" \
+            '.stable-history += [{"version": $version, "updated": $updated, "commit": $commit}]')
+      
+          # Update the Gist
+          curl -X PATCH \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/gists/$GIST_ID \
+            -d "{\"files\": {\"history.json\": {\"content\": $(echo "$UPDATED_JSON" | jq -Rsa) }}}"
+        shell: bash
 
       - name: Updating stable tag
         if: success()
