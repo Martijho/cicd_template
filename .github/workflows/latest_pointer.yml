@@ -91,7 +91,7 @@ jobs:
       
           # Append new latest entry to JSON
           UPDATED_JSON=$(echo "$CURRENT_JSON" | jq --arg version "$GITHUB_REF_NAME" --arg updated "$TIMESTAMP" --arg commit "$COMMIT_HASH" \
-            '.["latest-history"] += [{"version": ${{ env.VERSION_TAG }}, "updated": $updated, "commit": $commit}]')
+            '.["latest-history"] += [{"version": "${{ env.VERSION_TAG }}", "updated": $updated, "commit": $commit}]')
       
           # Update the Gist
           curl -X PATCH \
