@@ -1,7 +1,7 @@
 [![Most Recent Release](https://img.shields.io/github/v/release/Martijho/cicd_template)](https://github.com/Martijho/cicd_template/releases/latest)
 ![Latest Release](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/a55d7787586c5e7f5b7e09588757e696/raw/latest.json)
 ![Stable Release](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/7a50d807ec91d1e85af92d83f0949631/raw/stable.json)
-<script src="https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e.js"></script>
+
 # cicd_template
 This repo is a template for the GITHUB part of a CI/CD system, where the workflows can be built upon to include code-release to dev and prod. 
 
@@ -27,6 +27,13 @@ The workflows extract the commits release tag and adds it to `$GITHUB_ENV` so it
 
 The scripts `./scripts/update_latest.sh` and `./scripts/update_stable.sh` will move the respective tag to the version provided to the script. 
      
+## Release history 
+<details>
+  <summary>Click to expand</summary>
+
+  [![View Gist](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e)](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e)
+
+</details>
 
 ## Setup Guide for Gist, Tokens, and Secrets
 
