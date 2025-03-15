@@ -9,15 +9,6 @@ on:
       - 'some_package/**'
       - 'tests/**'
 
-  workflow_dispatch:
-
-env:
-  SERVICE_NAME: ml_activity_detection
-
-concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}-ml_activity_detection
-  cancel-in-progress: true
-
 jobs:
   test:
     runs-on: ubuntu-latest  # Could replace with self-hosted

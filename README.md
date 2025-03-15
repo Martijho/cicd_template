@@ -1,15 +1,29 @@
-[![Most Recent Release](https://img.shields.io/github/v/release/Martijho/cicd_template)](https://github.com/Martijho/cicd_template/releases/latest)
-![Latest Release](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/a55d7787586c5e7f5b7e09588757e696/raw/latest.json)
-![Stable Release](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/7a50d807ec91d1e85af92d83f0949631/raw/stable.json)
+<table>
+  <tr>
+     <td width="50%" align="left">
 
-Full release history [here](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e)
+| Pointer          | Version |
+|------------------|---------|
+| Current release    | [![Most Recent Release](https://img.shields.io/github/v/release/Martijho/cicd_template)](https://github.com/Martijho/cicd_template/releases/latest) |
+| Latest             | ![Latest](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/a55d7787586c5e7f5b7e09588757e696/raw/latest.json)  |
+| Stable             | ![Stable](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/7a50d807ec91d1e85af92d83f0949631/raw/stable.json) |
+| Full history       | [here](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e) |
 
-![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=alert_status)
-![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=coverage)
-![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=bugs)
-![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=vulnerabilities)
+   </td>
+    <td width="50%" align="right">
+
+| Workflow         | Status |
+|------------------|--------|
+| Pytests          | [![Tests](https://github.com/Martijho/cicd_template/actions/workflows/main_merge.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/main_merge.yml) |
+| Formatting       | [![Black](https://github.com/Martijho/cicd_template/actions/workflows/black_formatting.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/black_formatting.yml) |
+| SonarQube        | ![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=alert_status) ![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=coverage) ![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=bugs) ![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=vulnerabilities) |
+
+   </td>
+  </tr>
+</table>
 
 
+Full release history 
 # cicd_template
 This repo is a template for the GITHUB part of a CI/CD system, where the workflows can be built upon to include code-release to dev and prod. 
 
