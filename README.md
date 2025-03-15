@@ -22,8 +22,6 @@
   </tr>
 </table>
 
-
-Full release history 
 # cicd_template
 This repo is a template for the GITHUB part of a CI/CD system, where the workflows can be built upon to include code-release to dev and prod. 
 

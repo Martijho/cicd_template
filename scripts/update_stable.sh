@@ -29,4 +29,31 @@ if ! git ls-remote --tags origin | grep -q "refs/tags/$version"; then
     exit 1
 fi
 
+# Get the commit hash of the 'stable' tag, if it exists
+current_stable_commit=$(git rev-list -n 1 stable 2>/dev/null)
+
+# If 'stable' tag doesn't exist yet
+if [ -z "$current_stable_commit" ]; then
+    echo "No 'stable' tag found. Proceeding to create the 'stable' tag."
+else
+    # Get the commit hash for the provided version
+    version_commit=$(git rev-list -n 1 $version)
+    
+    # Compare the commits, if the stable tag is pointing to an earlier commit
+    if [ "$version_commit" != "$current_stable_commit" ]; then
+        echo "Current 'stable' tag is pointing to commit $current_stable_commit."
+        echo "'$version' tag points to commit $version_commit."
+
+        # Check if the provided version is earlier than the current 'stable' tag
+        if git merge-base --is-ancestor $version_commit $current_stable_commit; then
+            echo "The provided version is earlier than the current 'stable' tag."
+            read -p "Are you sure you want to roll back to this version? (y/N): " confirmation
+            if [[ ! "$confirmation" =~ ^[Yy]$ ]]; then
+                echo "Rollback canceled."
+                exit 1
+            fi
+        fi
+    fi
+fi
+
 git tag -f stable $version && git push origin stable --force
