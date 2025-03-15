@@ -1,22 +1,14 @@
-name: Tests
+name: Module A Test
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - '.github/workflows/main_merge.yml'
+      - '.github/workflows/test_module_a.yml'
       - 'some_package/**'
-      - 'tests/**'
-
-  workflow_dispatch:
-
-env:
-  SERVICE_NAME: ml_activity_detection
-
-concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}-ml_activity_detection
-  cancel-in-progress: true
+      - 'tests/module_a/**'
+      - 'tests/conftest.py  '
 
 jobs:
   test:
@@ -51,6 +43,6 @@ jobs:
       - name: Run tests
         if: success()
         run: |
-          pytest tests --capture=no --tb=short
+          pytest tests/module_a --capture=no --tb=short
           
   
