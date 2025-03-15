@@ -4,6 +4,12 @@
 
 Full release history [here](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e)
 
+![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=alert_status)
+![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=coverage)
+![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=bugs)
+![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=vulnerabilities)
+
+
 # cicd_template
 This repo is a template for the GITHUB part of a CI/CD system, where the workflows can be built upon to include code-release to dev and prod. 
 
