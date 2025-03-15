@@ -14,8 +14,7 @@
 
 | Workflow         | Status |
 |------------------|--------|
-| Pytests          |  
-|                  | <table>  
+| Pytests          | <table>  
 |                  | <tr><td> Module A </td><td> [![Module A](https://github.com/Martijho/cicd_template/actions/workflows/test_module_a.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_a.yml) </td></tr> |
 |                  | <tr><td> Module B </td><td> [![Module B](https://github.com/Martijho/cicd_template/actions/workflows/test_module_b.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_b.yml) </td></tr> |
 |                  | <tr><td> Module C </td><td> [![Module C](https://github.com/Martijho/cicd_template/actions/workflows/test_module_c.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_c.yml) </td></tr> |
