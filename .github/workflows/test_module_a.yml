@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - '.github/workflows/test_module_a.yml'
-      - 'some_package/**'
+      - 'module_a/**'
       - 'tests/module_a/**'
       - 'tests/conftest.py  '
 
