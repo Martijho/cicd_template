@@ -1,20 +1,26 @@
 <table>
   <tr>
-    <td width="50%" style="text-align: left;">
+    <td width="33%" style="text-align: left;">
 
-| Pointer          | Version |
-|------------------|---------|
-| Current release    | [![Most Recent Release](https://img.shields.io/github/v/release/Martijho/cicd_template)](https://github.com/Martijho/cicd_template/releases/latest) |
-| Latest             | ![Latest](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/a55d7787586c5e7f5b7e09588757e696/raw/latest.json)  |
-| Stable             | ![Stable](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/7a50d807ec91d1e85af92d83f0949631/raw/stable.json) |
-| Full history       | [here](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e) |
+| Releases      | Version |
+|---------------|---------|
+| Current       | [![Most Recent Release](https://img.shields.io/github/v/release/Martijho/cicd_template)](https://github.com/Martijho/cicd_template/releases/latest) |
+| Latest        | ![Latest](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/a55d7787586c5e7f5b7e09588757e696/raw/latest.json)  |
+| Stable        | ![Stable](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Martijho/7a50d807ec91d1e85af92d83f0949631/raw/stable.json) |
+| Full history  | [here](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e) |
 
    </td>
-    <td width="50%" style="text-align: right;">
+    <td width="33%" style="text-align: left;">
 
-| Workflow         | Status |
+| Test Workflows   | Status |
 |------------------|--------|
 | Pytests          | [![Module A](https://github.com/Martijho/cicd_template/actions/workflows/test_module_a.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_a.yml) <br> [![Module B](https://github.com/Martijho/cicd_template/actions/workflows/test_module_b.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_b.yml) <br> [![Module C](https://github.com/Martijho/cicd_template/actions/workflows/test_module_c.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_c.yml) |
+
+   </td>
+   <td width="33%" style="text-align: left;">
+
+| Other Workflows  | Status |
+|------------------|--------|
 | Formatting       | [![Black](https://github.com/Martijho/cicd_template/actions/workflows/black_formatting.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/black_formatting.yml) |
 | SonarQube        | ![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=alert_status) <br> ![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=coverage) <br> ![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=bugs) <br> ![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=vulnerabilities) |
 
@@ -47,45 +53,47 @@ The workflows extract the commits release tag and adds it to `$GITHUB_ENV` so it
 
 The scripts `./scripts/update_latest.sh` and `./scripts/update_stable.sh` will move the respective tag to the version provided to the script. 
      
+### Other workflows 
+There are three test-workflows which generates result-shields. Integration of these can be found in the top of this readme. 
+There are also a workflow for formatting check using the black standard. 
+
+This example repo is integrated with SonarQube. This is a third party service which has its own setup. 
 
 ## Setup Guide for Gist, Tokens, and Secrets
 
-This guide explains how to set up a Gist, create a token, and add the necessary secrets to your GitHub repository for use with GitHub Actions.
-The examples in this guide uses `latest`. Repeate the step for `stable` to get both shields
+This guide explains how to set up a Gist, create a token, and add the necessary secrets to your GitHub repository for use with GitHub Actions. Three gists are used for this repo `latest.json`, `stable.json` and `history.json`
 
-### Step 1: Create a Public Gist
 1. Go to [GitHub Gists](https://gist.github.com/).
-2. Click **"New Gist"**.
-3. Set a name for the file (e.g., `latest.json`) and add the following JSON content:
-    ```json
-    {
-      "schemaVersion": 1,
-      "label": "Latest Release",
-      "message": "v0.0.0",
-      "color": "blue"
-    }
-    ```
-4. Click **"Create public Gist"**. Ensure the Gist is public.
-
-### Step 2: Get Your Gist ID
-1. After creating the Gist, you'll be redirected to its page.
-2. The URL will look like:  
-    `https://gist.github.com/YOUR_USERNAME/GIST_ID`.
-3. Copy the **`GIST_ID`** (the alphanumeric string after your GitHub username).
-
-### Step 3: Create a GitHub Personal Access Token
-1. Go to [GitHub Personal Access Tokens](https://github.com/settings/tokens).
-2. Click **"Generate new token"**.
-3. Enable **"gist"** permission (you can leave others unchecked).
-4. Click **"Generate token"**.
-5. **Copy** the token immediately (you won’t be able to view it again).
-
-### Step 4: Add Secrets to Your GitHub Repository
-1. Go to your **GitHub repository**.
-2. Navigate to **Settings > Secrets and variables > Actions**.
-3. Click **"New repository secret"**.
-4. Add the following secrets:
-   - **Secret Name**: `GIST_ID_LATEST`  
-     **Value**: Your **Gist ID** (copied in Step 2).
-   - **Secret Name**: `GIST_TOKEN_LATEST`  
-     **Value**: The **GitHub Token** (copied in Step 3).
+2. Create 3 new secret Gists: 
+#### latest.json
+```json
+{
+  "schemaVersion": 1,
+  "label": "Latest Release",
+  "message": "v0.0.0",
+  "color": "blue"
+}
+```
+#### stable.json
+```json
+{
+  "schemaVersion": 1,
+  "label": "Stable Release",
+  "message": "v0.0.0",
+  "color": "blue"
+}
+```
+#### history.json
+```json
+{
+  "stable-history": [],
+  "latest-history": []
+}
+```
+3. Note the gist IDs found in the URL. `https://gist.github.com/YOUR_USERNAME/GIST_ID`
+4. Go to [GitHub Personal Access Tokens](https://github.com/settings/tokens) and generate a new token. Make sure to enable  **"gist"** permission (you can leave others unchecked)
+5. Go to your repository **Settings > Secrets and variables > Actions** and add 4 new secrets
+- `GIST_TOKEN` -> The newly create access token with gist permission
+- `GIST_ID_LATEST` -> The ID to the `latest.json` gist
+- `GIST_ID_STABLE` -> The ID to the `stable.json` gist
+- `GIST_ID_HISTORY` -> The ID to the `history.json` gist
