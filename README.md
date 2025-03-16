@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td width="33%" style="text-align: left;">
+    <td width="50%" style="text-align: left;">
 
 | Releases      | Version |
 |---------------|---------|
@@ -10,20 +10,13 @@
 | Full history  | [here](https://gist.github.com/Martijho/cdc1e310d9f336ef1c7543d1e3cea78e) |
 
    </td>
-    <td width="33%" style="text-align: left;">
+    <td width="50%" style="text-align: left;">
 
-| Test Workflows   | Status |
+| Workflows        | Status |
 |------------------|--------|
 | Pytests          | [![Module A](https://github.com/Martijho/cicd_template/actions/workflows/test_module_a.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_a.yml) <br> [![Module B](https://github.com/Martijho/cicd_template/actions/workflows/test_module_b.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_b.yml) <br> [![Module C](https://github.com/Martijho/cicd_template/actions/workflows/test_module_c.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/test_module_c.yml) |
-
-   </td>
-   <td width="33%" style="text-align: left;">
-
-| Other Workflows  | Status |
-|------------------|--------|
 | Formatting       | [![Black](https://github.com/Martijho/cicd_template/actions/workflows/black_formatting.yml/badge.svg)](https://github.com/Martijho/cicd_template/actions/workflows/black_formatting.yml) |
 | SonarQube        | ![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=alert_status) <br> ![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=coverage) <br> ![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=bugs) <br> ![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Martijho_cicd_template&metric=vulnerabilities) |
-
    </td>
   </tr>
 </table>

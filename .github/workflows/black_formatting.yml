@@ -1,19 +1,13 @@
 name: Black Formatting
 
 on:
-  pull_request:
-    branches:
+  push:
+    branches: 
       - main
-    paths:
-      - '.github/workflows/black_formatting.yml'
-      - 'some_package/**'
-      - 'tests/**'
 
 jobs:
   black:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    
     steps:
       - name: Cleanup workspace
         run: |
@@ -38,3 +32,4 @@ jobs:
       - name: Run Black formatting check
         run: |
           black --check --diff .
+
