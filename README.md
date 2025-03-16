@@ -48,7 +48,7 @@ The scripts `./scripts/update_latest.sh` and `./scripts/update_stable.sh` will m
      
 ### Other workflows 
 There are three test-workflows which generates result-shields. Integration of these can be found in the top of this readme. 
-There are also a workflow for formatting check using the black standard. 
+There are also a workflow for formatting check using the black standard. This is setup to run on pushes to main, meaning a failing black check will not stop your PR, but will show up in the readme as a failed test
 
 This example repo is integrated with SonarQube. This is a third party service which has its own setup. 
 
