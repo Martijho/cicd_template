@@ -1,9 +1,6 @@
 name: Black Formatting
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches: 
       - main
@@ -35,5 +32,4 @@ jobs:
       - name: Run Black formatting check
         run: |
           black --check --diff .
-        continue-on-error: true  # Allows the job to pass even if black fails
 
