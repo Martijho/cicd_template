@@ -1,0 +1,48 @@
+name: Short Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Could replace with self-hosted
+    if: github.event_name == 'pull_request' 
+    steps:
+      - name: Cleanup workspace
+        run: |
+          sudo rm -rf $GITHUB_WORKSPACE/* || true
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0 
+
+      - name: Create PR Check with Button
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            if (!pr) return;
+
+            // Create a check run with a button
+            await github.rest.checks.create({
+              owner,
+              repo,
+              name: "Long Tests",
+              head_sha: pr.head.sha,
+              status: "queued",
+              details_url: `https://github.com/Martijho/cicd_template/actions/workflows/long_tests.yml`,
+              output: {
+                title: "Run Long Tests",
+                summary: "Click the 'Re-run' button below to trigger the long tests."
+              }
+            });
